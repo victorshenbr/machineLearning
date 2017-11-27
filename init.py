@@ -26,3 +26,4 @@ while curCat <= maxLength:
 
 uniqueCat = list(set([item for sublist in df['splited_categories'].tolist() for item in sublist]))
 len(uniqueCat)
+
