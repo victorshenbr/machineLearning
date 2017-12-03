@@ -74,12 +74,13 @@ def main():
     df = pd.read_table('../input/train.tsv', engine='c')
     tests = pd.read_table('../input/train.tsv', engine='c')
 
+
     df['price'] = np.log1p(df['price'])
     trainRowCount = df.shape[0]
     trainY = df['price']
+    testCount = tests.shape[0]
     del df['price']
     merge: pd.DataFrame = pd.concat([df, tests])
-    submission: pd.DataFrame = tests['test_id']
     del df
     del tests
 
@@ -113,6 +114,9 @@ def main():
     model = Ridge(solver="sag", fit_intercept=True, random_state=500)
     model.fit(x_trainDf, trainY)
     preds = model.predict(X=x_test)
+
+    submission = pd.DataFrame()
+    submission["test_id"] = range(len(testCount))
     submission['price'] = np.expm1(preds)
     submission.to_csv("submission_ridge.csv", index=False)
 
