@@ -69,15 +69,17 @@ def tfidfTransform(df):
 
 def main():
     dir = 'C:/gitproject/machineLearning/'
-    df = pd.read_table(dir + "train.tsv")
-    tests = pd.read_table(dir + "test.tsv")
+    #df = pd.read_table(dir + "train.tsv")
+    #tests = pd.read_table(dir + "test.tsv")
+    df = pd.read_table('../input/train.tsv', engine='c')
+    tests = pd.read_table('../input/train.tsv', engine='c')
 
     df['price'] = np.log1p(df['price'])
     trainRowCount = df.shape[0]
     trainY = df['price']
     del df['price']
     merge: pd.DataFrame = pd.concat([df, tests])
-    submission: pd.DataFrame = tests[['test_id']]
+    submission: pd.DataFrame = tests['test_id']
     del df
     del tests
 
